@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> {% block title %} IMDB Project {% endblock %} </title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'movies/css/style.css' %}">
+</head>
+<body>
+{% block header %}
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="javascript:void(0)"><button type="button" class="btn btn-warning" style="font-size: 60%;">IMDb</button></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Menu</a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#">Movies</a></li>
+                          <li><a class="dropdown-item" href="#">TV Shows</a></li>
+                          <li><a class="dropdown-item" href="#">Award & Events</a></li>
+                          <li><a class="dropdown-item" href="#">Celebs</a></li>
+                          <li><a class="dropdown-item" href="#">Community</a></li>
+
+                        </ul>
+                      </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="https://www.imdb.com/registration/signin">Sign in</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="javascript:void(0)">watchlist</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="javascript:void(0)">Language</a>
+                    </li>
+
+                  </ul>
+                      <form class="d-flex">
+                        <input class="form-control me-2" type="text" placeholder="Search IMDb">
+                      </form>
+              </div>
+            </div>
+          </nav>
+    </header>
+{% endblock %}
+<div class="main container">
+    {% block content %}
+        <h3>Default content</h3>
+    {% endblock %}
+</div>
+</body>
+</html>
