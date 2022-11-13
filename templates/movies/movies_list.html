@@ -6,9 +6,9 @@
 <div class="row">
     {% for movie in movies %}
  <div class="col-sm-4 text-center-card">
-                    <img src="photos/thedarkknight.png" class="rounded" alt={{movie.title}} style="width:70%"/>
+                    <img src="{{ movie.image_link }}" class="rounded" alt={{movie.title}} style="width:70%"/>
                     <h4> {{movie.title}}</h4>
-                    <h6>★9.0</h6>
+                    <h6>★{{ movie.rate }}</h6>
                     <button type="button" class="btn btn-warning" style="margin-bottom: 20%;">Movie page</button>
               </div>
     {% endfor %}

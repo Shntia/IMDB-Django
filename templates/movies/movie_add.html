@@ -3,19 +3,42 @@
 
 {% block content %}
     <div class="main">
-        <div class="error">{{ form.non_field_errors }}</div>
+    <div class="error">{{ form.non_field_errors }}</div>
 
-        <form method="post" enctype="multipart/form-data" action={% url 'movies_list' %}>
-            {% csrf_token %}
-            {% for field in form %}
-                <div class="form-group">
-                    <div class="error">{{ field.errors }}</div>
-                    {{ field.label_tag }} <br>
-                    {{ field }}
+    <form method="post" enctype="multipart/form-data" action={% url 'movies_list' %}>
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <div class="row">
+                    <div class="col-6">
+                        <label style="margin-left: 1%"> Title </label>
+                        {{ form.title }}
+                    </div>
+                    <div class="col-6">
+                        <label style="margin-left: 1%"> Rate </label>
+                        {{ form.rate }}
+                    </div>
+
                 </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label style="margin-left: 1%"> Release date </label>
+                {{ form.release_date }}
+            </div>
+            <div class="form-group col-md-6">
+                <label style="margin-left: 1%"> Image link </label>
+                {{ form.image_link }}
+            </div>
+            <div class="form-group col-md-6">
+                <label style="margin-left: 1%"> Description </label>
+                {{ form.description }}
+            </div>
+            {% for field in form %}
+                <div class="error">{{ field.errors }}</div>
             {% endfor %}
-        <br>
+            <br>
             <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
+        </div>
+    </form>
 {% endblock %}
+</div>
