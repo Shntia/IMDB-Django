@@ -47,11 +47,13 @@ class Movie(models.Model):
     description = models.TextField()
     release_date = models.DateField(null=True, blank=True)
     avatar = models.ImageField(upload_to='movies/avatars/', null=True, blank=True)
+    image_link = models.TextField(null=True, blank=True)
     genres = models.ManyToManyField(Genre)
     crew = models.ManyToManyField(Crew, through='MovieCrew')
     is_valid = models.BooleanField(default=True)
     created_time = models.DateTimeField(auto_now_add=True)
     modified_time = models.DateTimeField(auto_now=True)
+    rate = models.FloatField(null=True, blank=True)
 
     def get_description(self):
         return self.description
