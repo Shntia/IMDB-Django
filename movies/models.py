@@ -54,7 +54,7 @@ class Movie(models.Model):
     modified_time = models.DateTimeField(auto_now=True)
 
     def get_description(self):
-        return self.description.lower()
+        return self.description
 
     def __str__(self):
         return self.title
