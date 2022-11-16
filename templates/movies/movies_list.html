@@ -2,15 +2,24 @@
 {% block title %} Movies List {% endblock %}
 
 {% block content %}
+<style>
+a:hover{
+  color: rgb(243, 193, 67);
+}
+a{
+    color: white;
+}
+</style>
 <div class="content">
 <div class="row">
     {% for movie in movies %}
- <div class="col-sm-4 text-center-card">
-                    <img src="{{ movie.image_link }}" class="rounded" alt={{movie.title}} style="width:70%"/>
-                    <h4> {{movie.title}}</h4>
-                    <h6>★{{ movie.rate }}</h6>
-                    <a href="{% url 'movie_detail' name=movie.title%}"><button type="button" class="btn btn-warning" style="margin-bottom: 20%;">Movie page</button></a>
-              </div>
+ <div class="col-sm-4 text-center-card" id="yellow-div">
+
+            <img src="{{ movie.image_link }}" class="rounded" alt="{{movie.title}}" style="width: 70%; margin-bottom: 5%">
+            <h4> <a href="{% url 'movie_detail' name=movie.title%}" style="text-decoration: none">{{movie.title}}</a></h4>
+            <p><span style="color: rgb(243, 193, 67)">★ </span>{{ movie.rate }}</p>
+            <a href="{% url 'movie_detail' name=movie.title%}"><button type="button" class="btn btn-warning" style="margin-bottom: 20%;">Movie page</button></a>
+</div>
     {% endfor %}
 
     </div>
