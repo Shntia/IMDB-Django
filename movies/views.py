@@ -1,6 +1,5 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.urls import reverse
 from movies.models import Movie
 from movies.forms import MovieForm
 
@@ -56,7 +55,14 @@ def movie_delete(request, pk):
     pass
 
 
-def movie_detail(request):
-    movies = Movie.objects.all()
-    return render(request, "movies/movie_detail.html" , context= movies)
-
+def movie_detail(request, name):
+    movies = Movie.objects.get(title=name)
+    context = {
+        'name': movies.title,
+        'date': movies.release_date.year,
+        'image': movies.image_link,
+        'description': movies.description,
+        'rate': movies.rate,
+        'genrs': movies.genres.all().values('title'),
+    }
+    return render(request, "movies/movie_detail.html", context=context)

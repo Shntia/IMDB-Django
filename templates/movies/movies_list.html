@@ -9,7 +9,7 @@
                     <img src="{{ movie.image_link }}" class="rounded" alt={{movie.title}} style="width:70%"/>
                     <h4> {{movie.title}}</h4>
                     <h6>★{{ movie.rate }}</h6>
-                    <button type="button" class="btn btn-warning" style="margin-bottom: 20%;">Movie page</button>
+                    <a href="{% url 'movie_detail' name=movie.title%}"><button type="button" class="btn btn-warning" style="margin-bottom: 20%;">Movie page</button></a>
               </div>
     {% endfor %}
 

@@ -1,1 +1,30 @@
 {% extends 'movies/base.html' %}
+{% block content %}
+    <div class="container">
+        <div>
+            <h1> {{ name }} </h1>
+            <p> {{ date }}</p>
+        </div>
+        <div>
+            <p>
+                rate: {{ rate }}
+                your rating: []
+            </p>
+        </div>
+    </div>
+    
+    <div>
+            <img src="{{ image }}" style="width: 30%">
+                <video src="https://www.youtube.com/watch?v=z02Ie8wKKRg" width="320" height="240" autoplay>
+                </video>
+    </div>
+
+    <div>
+        {% for g in genrs %}
+            {{ g.title }}
+        {% endfor %}
+    </div>
+    <div>
+        {{ description }}
+    </div>
+{% endblock %}
