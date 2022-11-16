@@ -8,5 +8,7 @@ urlpatterns = [
     path('movie/<str:name>/', movie_detail, name='movie_detail'),
     path('<int:pk>/edit/', movie_edit, name='movie_edit'),
     path('add/', movie_add, name='movie_add'),
-    path('register/', register, name='register')
+    path('register/', register, name='register'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/',auth_views.LogoutView.as_view(), name='logout'),
 ]

@@ -41,10 +41,18 @@
                     </li>
                     <li class="nav-item">
                       {% if request.user.is_authenticated %}
+
                         <a class="nav-link" style="color: rgb(243, 193, 67)">welcome {{ request.user }}</a>
+                      <li>
+                          <a class="nav-link" style="..." href="{% url 'logout' %}">logout! </a>
+                      </li>
                         {% else %}
                       <a class="nav-link" href="{% url 'register' %}" style="color: rgb(243, 193, 67)">Sign Up</a>
                           </li>
+                      <li>
+                        <a class="nav-link" href="{% url 'login' %}" style="color: rgb(243, 193, 67)">Sign in</a>
+                          </li>
+
                         {% endif %}
 
                     </li>
