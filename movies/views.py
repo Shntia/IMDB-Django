@@ -1,15 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
 from movies.models import Movie
 from movies.forms import MovieForm
-
-
-# def movie_view(request):
-#     movie_list = Movie.objects.all()
-#     context = {
-#         'movies': movie_list
-#     }
-#     return render(request, 'movies/movies.html', context)
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from django.contrib.auth import login
 
 
 def movies_list(request):
@@ -26,7 +20,6 @@ def movies_list(request):
         form = MovieForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-
             return redirect('movies_list')
 
         return movie_add(request, form)
@@ -66,3 +59,17 @@ def movie_detail(request, name):
         'genrs': movies.genres.all().values('title'),
     }
     return render(request, "movies/movie_detail.html", context=context)
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, "Registration successful.")
+            login(request, user)
+            return redirect('movies_list')
+        messages.error(request, "Unsuccessful registration. Invalid information.")
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', context={'form': form})

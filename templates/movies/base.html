@@ -7,14 +7,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'movies/css/style.css' %}">
+    <link rel="shortcut icon" href="https://m.media-amazon.com/images/G/01/imdb/images-ANDW73HA/favicon_desktop_32x32._CB1582158068_.png">
 </head>
 
-{% block header %}
     <header>
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
             <div class="container-fluid">
               <a class="navbar-brand" href="javascript:void(0)"><button type="button"
                     class="btn btn-warning" style="font-size: 75%;"><b>IMDb</b></button></a>
+
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
                 <span class="navbar-toggler-icon"></span>
               </button>
@@ -39,7 +40,13 @@
                       <a class="nav-link" href="javascript:void(0)">Language</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="https://www.imdb.com/registration/signin" style="color: rgb(243, 193, 67)">Sign in</a>
+                      {% if request.user.is_authenticated %}
+                        <a class="nav-link" style="color: rgb(243, 193, 67)">welcome {{ request.user }}</a>
+                        {% else %}
+                      <a class="nav-link" href="{% url 'register' %}" style="color: rgb(243, 193, 67)">Sign Up</a>
+                          </li>
+                        {% endif %}
+
                     </li>
                   </ul>
                       <form class="d-flex">
@@ -49,7 +56,6 @@
             </div>
           </nav>
     </header>
-{% endblock %}
  <body  style="background-color: black;">
         <div class="container mt-3">
           <div style="margin-top: 5%; margin-left: 1%; color: white;">
