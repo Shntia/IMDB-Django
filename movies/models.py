@@ -1,5 +1,5 @@
 from django.db import models
-
+from comment.models import AbstractComment
 
 class Genre(models.Model):
     title = models.CharField(max_length=50)
@@ -72,4 +72,7 @@ class MovieCrew(models.Model):
     class Meta:
         unique_together = ('movie', 'crew', 'role')
 
+
+class MovieComment(AbstractComment):
+    Movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
