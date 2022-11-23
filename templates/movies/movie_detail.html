@@ -2,30 +2,39 @@
 {% block title %} IMDb - {{ name }}{% endblock %}
 {% block content %}
     <div class="container">
-        <div>
+        <div class="row">
+            <div class="col-md-6">
             <h1> {{ name }} </h1>
             <p> {{ date }}</p>
         </div>
-        <div>
-            <p>
+        <div class="col-md-6">
+            <p style="text-align: right">
                 rate: {{ rate }}
                 your rating: []
             </p>
         </div>
     </div>
     
-    <div>
+    <div class="row">
+        <div class="col-md">
             <img src="{{ image }}" style="width: 30%">
-                <video src="https://www.youtube.com/watch?v=z02Ie8wKKRg" width="320" height="240" autoplay>
-                </video>
+        </div>
+        <div class="col-md">
+                <iframe src="https://www.youtube.com/watch?v=z02Ie8wKKRg" height="240" style="text-align: left">
+                </iframe>
+        </div>
     </div>
 
-    <div>
+    <div class="row">
+        <div class="col-md">
         {% for g in genrs %}
-            {{ g.title }}
+            <button type="button">{{ g.title }}</button>
         {% endfor %}
+        </div>
     </div>
-    <div>
+    <div class="row">
+        <div class="col-md-6">
         {{ description }}
+        </div>
     </div>
 {% endblock %}
