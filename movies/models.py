@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from comment.models import AbstractComment
 
+
 class Genre(models.Model):
     title = models.CharField(max_length=50)
     is_valid = models.BooleanField(default=True)

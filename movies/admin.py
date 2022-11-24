@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from movies.models import Role, Genre, Movie, MovieCrew, Crew, MovieComment
+from movies.models import Role, Genre, Movie, MovieCrew, Crew, MovieComment, MovieRate
 
 
 # Register your models here.
@@ -39,8 +39,13 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('id', 'comment_body', 'status')
 
 
+class Rate(admin.ModelAdmin):
+    list_display = ('rate',)
+
+
 admin.site.register(Role, RoleAdmin)
 admin.site.register(Genre, GenreAdmin)
 admin.site.register(Movie, MovieAdmin)
 admin.site.register(Crew, CrewAdmin)
 admin.site.register(MovieComment, CommentAdmin)
+admin.site.register(MovieRate, Rate)

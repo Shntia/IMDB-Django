@@ -10,7 +10,7 @@
             <div class="col-md-6">
                 <p style="text-align: right">
                     rate: {{ rate }}
-                    your rating: []
+                    your rating: <form method="post"> {% csrf_token %} {{ rate_form.as_p }}</form>
                 </p>
             </div>
         </div>
@@ -40,6 +40,7 @@
         <br>
         <h4> comments:</h4><br>
         {% for comment in comments %}
+            <h4> {{ comment.user }}</h4>
             <p> {{ comment.comment_body }}</p>
         {% endfor %}
     </div>
@@ -47,7 +48,6 @@
     <div>
         <form method="post" action="{% url "movie_detail" name %}">
             {% csrf_token %}
-
             {{ comment_form.as_p }}
             <button type="submit" class="btn btn-primary" name="comment" value="comment"> Submit</button>
         </form>

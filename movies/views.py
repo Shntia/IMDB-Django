@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from comment.models import AbstractComment
-from movies.models import Movie, MovieComment
-from movies.forms import MovieForm
+from movies.models import Movie, MovieComment, MovieRate
+from movies.forms import MovieForm, RateForm
 from comment.forms import CommentForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -53,22 +53,35 @@ def movie_delete(request, pk):
 
 def movie_detail(request, name):
     movies = Movie.objects.get(title=name)
-    print(movies)
     comment = MovieComment.objects.filter(Movie=movies, status=AbstractComment.APPROVED)
     new_comment = None
     if request.method == 'POST':
+        if request.POST.get('rate'):
+            if request.user.is_authenticated:
+                rate_form = RateForm(request.POST)
+                if rate_form.is_valid():
+                    MovieRate.objects.update_or_create(user=request.user,
+                                                       movie=movies,
+                                                       defaults={'rate': int(request.POST.get('rate'))}
+                                                       )
+                    return redirect('.')
+                else:
+                    return redirect('login')
+
         if request.POST.get('comment'):
             if request.user.is_authenticated:
                 comment_form = CommentForm(data=request.POST)
                 if comment_form.is_valid():
                     MovieComment.objects.create(
                         user=request.user,
-                        Movie=movies,
+                        movie=movies,
                         comment_body=request.POST.get("comment_body")
                     )
+                    return redirect('.')
             else:
                 return redirect('login')
     else:
+        rate_form = RateForm()
         comment_form = CommentForm()
 
     context = {
@@ -81,6 +94,7 @@ def movie_detail(request, name):
         'comments': comment,
         'new_comment': new_comment,
         'comment_form': comment_form,
+        'rate_form': rate_form,
     }
     return render(request, "movies/movie_detail.html", context=context)
 

@@ -1,8 +1,6 @@
 from django import forms
 from django.forms import TextInput
-# from django.core.exceptions import ValidationError
-
-from movies.models import Movie
+from movies.models import Movie, MovieRate
 
 
 class MovieForm(forms.ModelForm):
@@ -46,3 +44,9 @@ class MovieForm(forms.ModelForm):
 
             ),
         }
+
+
+class RateForm(forms.ModelForm):
+    class Meta:
+        model = MovieRate
+        fields = ('rate',)
