@@ -52,8 +52,8 @@ def movie_delete(request, pk):
 
 
 def movie_detail(request, name):
-    movies = Movie.objects.get(title=name)
-    comment = MovieComment.objects.filter(Movie=movies, status=AbstractComment.APPROVED)
+    movie = Movie.objects.get(title=name)
+    comment = MovieComment.objects.filter(movie=movie, status=AbstractComment.APPROVED)
     new_comment = None
     if request.method == 'POST':
         if request.POST.get('rate'):
@@ -61,7 +61,7 @@ def movie_detail(request, name):
                 rate_form = RateForm(request.POST)
                 if rate_form.is_valid():
                     MovieRate.objects.update_or_create(user=request.user,
-                                                       movie=movies,
+                                                       movie=movie,
                                                        defaults={'rate': int(request.POST.get('rate'))}
                                                        )
                     return redirect('.')
@@ -74,7 +74,7 @@ def movie_detail(request, name):
                 if comment_form.is_valid():
                     MovieComment.objects.create(
                         user=request.user,
-                        movie=movies,
+                        movie=movie,
                         comment_body=request.POST.get("comment_body")
                     )
                     return redirect('.')
@@ -85,12 +85,12 @@ def movie_detail(request, name):
         comment_form = CommentForm()
 
     context = {
-        'name': movies.title,
-        'date': movies.release_date.year,
-        'image': movies.image_link,
-        'description': movies.description,
-        'rate': movies.rate,
-        'genrs': movies.genres.all().values('title'),
+        'name': movie.title,
+        'date': movie.release_date.year,
+        'image': movie.image_link,
+        'description': movie.description,
+        'rate': movie.rate,
+        'genrs': movie.genres.all().values('title'),
         'comments': comment,
         'new_comment': new_comment,
         'comment_form': comment_form,
