@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+
+from comment.models import AbstractComment
 from movies.models import Movie, MovieComment
 from movies.forms import MovieForm
 from comment.forms import CommentForm
@@ -51,7 +53,24 @@ def movie_delete(request, pk):
 
 def movie_detail(request, name):
     movies = Movie.objects.get(title=name)
-    comment = MovieComment.objects.all()
+    print(movies)
+    comment = MovieComment.objects.filter(Movie=movies, status=AbstractComment.APPROVED)
+    new_comment = None
+    if request.method == 'POST':
+        if request.POST.get('comment'):
+            if request.user.is_authenticated:
+                comment_form = CommentForm(data=request.POST)
+                if comment_form.is_valid():
+                    MovieComment.objects.create(
+                        user=request.user,
+                        Movie=movies,
+                        comment_body=request.POST.get("comment_body")
+                    )
+            else:
+                return redirect('login')
+    else:
+        comment_form = CommentForm()
+
     context = {
         'name': movies.title,
         'date': movies.release_date.year,
@@ -60,7 +79,8 @@ def movie_detail(request, name):
         'rate': movies.rate,
         'genrs': movies.genres.all().values('title'),
         'comments': comment,
-        'comment_form': CommentForm(request.POST)
+        'new_comment': new_comment,
+        'comment_form': comment_form,
     }
     return render(request, "movies/movie_detail.html", context=context)
 

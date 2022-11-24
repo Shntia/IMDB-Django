@@ -76,3 +76,5 @@ class MovieCrew(models.Model):
 class MovieComment(AbstractComment):
     Movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.Movie.title

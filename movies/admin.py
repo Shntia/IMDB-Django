@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from movies.models import Role, Genre, Movie, MovieCrew, Crew
+from movies.models import Role, Genre, Movie, MovieCrew, Crew, MovieComment
+
 
 # Register your models here.
 
@@ -34,7 +35,12 @@ class CrewAdmin(admin.ModelAdmin):
     list_filter = ('is_valid', )
 
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'comment_body', 'status')
+
+
 admin.site.register(Role, RoleAdmin)
 admin.site.register(Genre, GenreAdmin)
 admin.site.register(Movie, MovieAdmin)
 admin.site.register(Crew, CrewAdmin)
+admin.site.register(MovieComment, CommentAdmin)
