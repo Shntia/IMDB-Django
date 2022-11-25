@@ -8,10 +8,21 @@
                 <p> {{ date }}</p>
             </div>
             <div class="col-md-6">
-                <p style="text-align: right">
+                <div class="row">
+                    <div class="col-md-3">
+                    <p style="text-align: right">
                     rate: {{ rate }}
-                    your rating: <form method="post"> {% csrf_token %} {{ rate_form.as_p }}</form>
+                    </div>
+                    <div class="col-md-3">
+
+                    your rating: <form method="post"> {% csrf_token %}
+                        {{ rate_form.rate }}
+                    <button type="submit" class="btn btn-primary" name="comment" value="comment"> Submit </button>
+                    </form>
                 </p>
+                </div>
+                </div>
+
             </div>
         </div>
 

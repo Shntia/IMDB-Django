@@ -29,15 +29,13 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30, blank=True)
+    username = models.CharField(max_length=30, blank=True, unique=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     phone_number = models.IntegerField(unique=True, validators=[
         RegexValidator(r'^989[0-3,9]\d{8}$', 'Enter a valid phone number.', 'invalid')], null=True, blank=True)
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['phone_number']
-
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
     objects = UserManager()
