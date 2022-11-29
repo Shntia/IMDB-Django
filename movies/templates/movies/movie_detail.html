@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} IMDb - {{ movie.title }}{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1> {{ movie.title }} </h1>
+                <p> {{ movie.release_date.year }}</p>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3">
+                    <p style="text-align: right">
+                    rate: {{ movie.rate }}
+                    </div>
+                    <div class="col-md-3">
+
+                    your rating: <form method="post"> {% csrf_token %}
+                        {{ rate_form.rate }}
+                    <button type="submit" class="btn btn-primary" name="comment" value="comment"> Submit </button>
+                    </form>
+                </p>
+                </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md">
+                <img src="{% if movie.image_file %} {{ movie.image_file.url }}
+                        {% elif movie.image_link %} {{ movie.image_link }} {% endif %}" style="width: 30%">
+            </div>
+            <div class="col-md">
+                <iframe src="https://www.youtube.com/watch?v=z02Ie8wKKRg" height="240" style="text-align: left">
+                </iframe>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md">
+                {% for g in geners %}
+                    <button type="button">{{ g.title }}</button>
+                {% endfor %}
+                 {% if request.user.is_superuser %}
+                     <a class="navbar-brand" href="{% url 'movie_edit' movie.title %}"><button type="button"
+                    class="btn btn-warning" style="font-size: 75%;"><b>EDIT</b></button></a><a class="navbar-brand"
+                                                               href="{% url 'movie_delete' movie.title %}"><button type="button"
+                    class="btn btn-danger" style="font-size: 75%;"><b>DELETE</b></button></a>
+
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ movie.description }}
+            </div>
+        </div>
+        <br>
+        <h4> comments:</h4><br>
+        {% for comment in comments %}
+            <h4> {{ comment.user }}</h4>
+            <p> {{ comment.comment_body }}</p>
+        {% endfor %}
+    </div>
+
+    <div>
+        <form method="post" action="{% url "movie_detail" movie.title %}">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit" class="btn btn-primary" name="comment" value="comment"> Submit</button>
+        </form>
+    </div>
+{% endblock %}
