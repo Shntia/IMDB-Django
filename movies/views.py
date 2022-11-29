@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.contrib.auth.decorators import login_required
 from comment.models import AbstractComment
 from movies.models import Movie, MovieComment, MovieRate
 from movies.forms import MovieForm, RateForm
@@ -11,8 +11,6 @@ def movies_list(request):
         movies = Movie.objects.all()
         context = {
             "movies": movies,
-            "user": "Arash",
-            "is_valid": True
         }
         return render(request, 'movies/movies_list.html', context=context)
 
@@ -31,21 +29,27 @@ def movie_add(request, movie_form=None):
     return render(request, 'movies/movie_add.html', context={'form': movie_form})
 
 
-def movie_edit(request, pk, movie_form=None):
-    movie = get_object_or_404(Movie, pk=pk, is_valid=True)
-
-    if not movie_form:
-        movie_form = MovieForm(instance=movie)
-
-    context = {
-        'form': movie_form,
-        'movie': movie
-    }
+@login_required
+def movie_edit(request, name, movie_form=None):
+    movie = get_object_or_404(Movie, title=name, is_valid=True)
+    if request.method == 'GET':
+        if not movie_form:
+            movie_form = MovieForm(instance=movie)
+        context = {
+            'form': movie_form,
+            'movie': movie,
+        }
+    elif request.method == 'POST':
+        form = MovieForm(request.POST, request.FILES, instance=movie)
+        if form.is_valid():
+            form.save()
+            return redirect('movie_detail', name)
     return render(request, 'movies/movie_edit.html', context=context)
 
 
-def movie_delete(request, pk):
-    movie = get_object_or_404(Movie, pk=pk, is_valid=True)
+@login_required
+def movie_delete(request, name):
+    movie = get_object_or_404(Movie, title=name, is_valid=True)
     movie.is_valid = False
     movie.save()
     return redirect('movies_list')
@@ -55,6 +59,8 @@ def movie_detail(request, name):
     movie = Movie.objects.get(title=name)
     comment = MovieComment.objects.filter(movie=movie, status=AbstractComment.APPROVED)
     new_comment = None
+    comment_form = None
+    rate_form = None
     if request.method == 'POST':
         if request.POST.get('rate'):
             if request.user.is_authenticated:
@@ -66,7 +72,7 @@ def movie_detail(request, name):
                                                        )
                     return redirect('.')
                 else:
-                    return redirect('login')
+                    return redirect('authentication')
 
         if request.POST.get('comment'):
             if request.user.is_authenticated:
@@ -79,18 +85,14 @@ def movie_detail(request, name):
                     )
                     return redirect('.')
             else:
-                return redirect('login')
+                return redirect('authentication')
     else:
         rate_form = RateForm()
         comment_form = CommentForm()
 
     context = {
-        'name': movie.title,
-        'date': movie.release_date.year,
-        'image': movie.image_link,
-        'description': movie.description,
-        'rate': movie.rate,
-        'genrs': movie.genres.all().values('title'),
+        'movie': movie,
+        'genres': movie.genres.all().values('title'),
         'comments': comment,
         'new_comment': new_comment,
         'comment_form': comment_form,
@@ -98,3 +100,20 @@ def movie_detail(request, name):
     }
     return render(request, "movies/movie_detail.html", context=context)
 
+# def search(request):
+#     if request.method == 'POST':
+#         form = SearchForm(request.POST)
+#         if form.is_valid():
+#             text = form.cleaned_data['text']
+#             movies = Movie.objects.filter(title__icontains=text)
+#         else:
+#             text = None
+#             movies = Movie.objects.all()
+#
+#         context = {
+#             "movies": movies,
+#             'text': text,
+#             'search_form': form,
+#         }
+#         return render(request, 'movies/movies_list.html', context=context)
+#

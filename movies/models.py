@@ -51,7 +51,7 @@ class Movie(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     release_date = models.DateField(null=True, blank=True)
-    avatar = models.ImageField(upload_to='movies/avatars/', null=True, blank=True)
+    image_file = models.ImageField(upload_to='movies/images/', null=True, blank=True)
     image_link = models.URLField(null=True, blank=True)
     genres = models.ManyToManyField(Genre)
     crew = models.ManyToManyField(Crew, through='MovieCrew')
@@ -61,9 +61,9 @@ class Movie(models.Model):
     rate = models.FloatField(null=True, blank=True)
 
     @property
-    def rate(self):
-        avg_rate = self.movie_rate.all().aggregate(avg=Avg('rate'))
-        return avg_rate.get('avg') or 1
+    def rate_avg(self):
+        average = self.movie_rate.all().aggregate(avg=Avg('rate'))
+        return average.get('avg') or 1
 
     def __str__(self):
         return self.title
@@ -88,8 +88,8 @@ class MovieComment(AbstractComment):
 
 
 class MovieRate(models.Model):
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='movie_rate')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='rate_user')
     rate = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
     created_time = models.DateTimeField(auto_now_add=True)
     modified_time = models.DateTimeField(auto_now=True)
