@@ -1,9 +1,10 @@
 @import url("https://fonts.googleapis.com/css?family=Fira+Sans");
+
 html, body {
   position: relative;
   min-height: 100vh;
-  background-color: #E1E8EE;
-  display: flex;
+  background-color: black;
+  /*display: flex;*/
   align-items: center;
   justify-content: center;
   font-family: "Fira Sans", Helvetica, Arial, sans-serif;
@@ -12,12 +13,13 @@ html, body {
 }
 
 .form-structor {
-  background-color: #222;
+  background-color: black;
   border-radius: 15px;
   height: 550px;
   width: 350px;
   position: relative;
-  overflow: hidden;
+  overflow: auto;
+  margin-left: 35%;
 }
 .form-structor::after {
   content: "";
@@ -99,7 +101,7 @@ html, body {
   color: rgba(0, 0, 0, 0.4);
 }
 .form-structor .signup .submit-btn {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: black;
   color: rgba(255, 255, 255, 0.7);
   border: 0;
   border-radius: 15px;
@@ -190,7 +192,7 @@ html, body {
   color: rgba(0, 0, 0, 0.4);
 }
 .form-structor .login .center .submit-btn {
-  background-color: #6B92A4;
+  background-color: black;
   color: rgba(255, 255, 255, 0.7);
   border: 0;
   border-radius: 15px;
